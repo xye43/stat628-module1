@@ -5,6 +5,6 @@ Body fat percentage, a measure of obesity, plays an important role in various he
 
 In this module, your group will come up with a simple, robust, accurate and precise  “rule-of-thumb” method to estimate percentage of body fat using clinically available measurements. Your “rule-of-thumb” will be based on a real data set of 252 men with measurements of their percentage of body fat and various body circumference measurements.
 
-Part-1 Data cleaning
-Part-2 Model fitting and diagnostic
-Part-3 Result
+Part-1 Data cleaning\par
+Part-2 Model fitting and diagnostic\par
+Part-3 Result\par
