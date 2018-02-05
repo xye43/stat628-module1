@@ -165,7 +165,6 @@ Cpplot(g) # the selected models seem to complicated
 
 ### AIC
 m_null <- lm(BODYFAT ~ 1, data)
-
 m_AIC_back <- step(m1, k=2)
 m_AIC_for <- step(m_null, direction="forward",
                        scope=list(lower=~1,upper=m1))
@@ -196,12 +195,11 @@ m4 <- lm((BODYFAT)*WEIGHT ~ ABDOMEN + WEIGHT, data) # transform
 summary(m4)
 (mse4 <- sum((m4$residuals/WEIGHT)^2)/nrow(data)) # worse
 
-m5 <- m_BIC_back # WEIGHT, ABDOMEN, FOREARM, WRIST  
+m5 <- lm(BODYFAT ~ WEIGHT + ABDOMEN + FOREARM + WRIST, data) # WEIGHT, ABDOMEN, FOREARM, WRIST  
 (s5 <- summary(m5))
 (mse5 <- sum((s5$residuals)^2)/nrow(data))
 # round the model
-fit5 <- -35 -0.15 * WEIGHT + ABDOMEN + 0.4*FOREARM - WRIST 
-mse5 <- sum((fit5- BODYFAT)^2)/nrow(data) # harder to round
+crPlot(m5)
 
 # LASSO
 set.seed(2018)
@@ -219,6 +217,10 @@ m7$lambda.1se
 which(m7$lambda == m7$lambda.1se)
 ridge.coef = coef(m7, s = m7$lambda.1se)
 
+## check model. 
+anova(m5, m1) # compare full model and model with 4 vars, not significant
+anova(m2, m5) # compare model with 2 vars and model with 4 vars, not significant
+
 # ************************
 #     model diagnose     *
 # ************************
@@ -234,13 +236,14 @@ ncvTest(m2) # constant error variance checked
 
 # Nonlinearity
 crPlots(m2) # linearty for WEIGHT is not good
-library(ggplot2)
-ggplot(data, aes(WEIGHT,BODYFAT)) + geom_point() + geom_smooth()
 
 # try to transform WEIGHT
-W2 <- WEIGHT^2
-mt<- lm(BODYFAT ~ ABDOMEN + W2)
-(mset <- sum((mt$residuals)^2)/nrow(data)) # 15.63357
+bc <- boxcox(WEIGHT~1, data = data, lambda = seq(-10, 10, length = 10))
+trans <- bc$x[which.max(bc$y)]
+W2 <- WEIGHT^trans
+mt<- lm(BODYFAT ~ ABDOMEN + WEIGHT + W2)
+(mset <- sum((mt$residuals)^2)/nrow(data)) # 15.59839
+
 crPlots(mt) # good
 summary(mt) # mse smaller
 
@@ -259,6 +262,61 @@ ncvTest(mt) # constant error variance checked
 
 # round model
 fit2 <- -55 + 0.9 * ABDOMEN - 0.00036 * (WEIGHT^2)
+
+
 mse <- sum((fit2 - BODYFAT)^2)/nrow(data)
 res <- fit2 - BODYFAT
 summary(res)
+
+
+# Normality
+shapiro.test(m5$residuals) # passed
+
+# Multi-collinearity
+vif(m5) # no colinearity
+
+# homoscedasticity 
+ncvTest(m5) # constant error variance checked
+
+# Nonlinearity
+crPlots(m5) # linearty for WEIGHT is not good
+
+mt_2 = lm(BODYFAT~WEIGHT+W2+ABDOMEN+FOREARM+WRIST, data)
+summary(mt_2)
+crPlots(mt_2)
+(mset_2 <- sum((mt_2$residuals)^2)/nrow(data)) # 15.59839
+
+# Normality
+shapiro.test(mt_2$residuals) # passed
+
+# Multi-collinearity
+vif(mt_2) # no colinearity
+
+# homoscedasticity 
+ncvTest(mt_2) # constant error variance checked
+
+
+# ********************
+#    rule of thumb   *
+# ********************
+m2
+# round the model to make it eaasier to calculate
+fit <- -40 + ABDOMEN - 0.2*WEIGHT 
+(mse <- sum((fit - BODYFAT)^2)/nrow(data))
+
+m5
+fit2 <- -50 - 0.1*WEIGHT + ABDOMEN + 0.5*FOREARM - WRIST
+(mse2 <- sum((fit2 - BODYFAT)^2)/nrow(data))
+
+sample <- data.frame(WEIGHT = 170, W2 = 170^trans, ABDOMEN = 90, FOREARM = 28, WRIST = 17)
+predict.lm(mt_2, newdata = sample, interval = 'confidence')
+predict(m_t, newdata = test, interval = 'confidence')
+
+# fit value using rule1
+(sample_fit1 <- -40 + 90 - 0.2*170)
+
+# fit value using rule2
+(sample_fit2 <- -50 - 0.1*170 + 90 + 0.5*28 - 17)
+
+
+
