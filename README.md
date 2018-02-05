@@ -5,10 +5,11 @@ To accurately estimate bodyfat with clinical measurements, we used several crite
 We found out that among all 14 variables, the linear function of WEIGHT, WEIGHT transformation, ABDOMEN, FOREARM, and WRIST can best interpret bodyfat.
 
 
-This Github repository contains all of the data analysis for the mentioned Body Fat data. It is consisted of five main parts: 
+This Github repository contains all of the data analysis for the mentioned Body Fat data. It is consisted of six main parts: 
 * data folder: includes the raw data (BodyFat.csv) and the cleaned data (clean.csv)
 * code folder: includes all the code for our analysis
 * figure folder: includes all figures/images/tables produced in our analysis
-* summary file(628-Module1-group7-Wed-4.html): a Jupyter Notebook file summary for our analysis
+* summary folder: a Jupyter Notebook summary and its html file for our analysis.
+* slide folder: a Jupyter Notebook slide and its html file for our presetation.
 * README Markdown file: a Markdown file briefly summarizing the contents of the repository
 
