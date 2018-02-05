@@ -12,6 +12,6 @@ This Github repository contains all of the data analysis for the mentioned Body 
 * data folder: includes the raw data (raw.csv) and the cleaned data (clean.csv)
 * code folder: includes all the code for our analysis
 * figure folder: includes all figures/images/tables produced in our analysis
-* summary file: a Jupyter Notebook file summary for our analysis
+* summary file(628-Module1-group7-Wed-4.html): a Jupyter Notebook file summary for our analysis
 * README Markdown file: a Markdown file briefly summarizing the contents of the repository
 
