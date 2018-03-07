@@ -10,6 +10,6 @@ This Github repository contains all of the data analysis for the mentioned Body 
 * code folder: includes all the code for our analysis
 * figure folder: includes all figures/images/tables produced in our analysis
 * summary folder: a Jupyter Notebook summary and its html file for our analysis.
-* slide folder: a Jupyter Notebook slide and its html file for our presetation.
+* slide folder: a powerpoint for our presetation.
 * README Markdown file: a Markdown file briefly summarizing the contents of the repository
 
