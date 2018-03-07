@@ -1,5 +1,5 @@
 
-##Stat628-Module1
+#Stat628-Module1
 
 To accurately estimate bodyfat with clinical measurements, we used several criterions to select important variables. After model diagonsis, we transformed independent variables to better satisfy linear model assumptions. 
 We found out that among all 14 variables, the linear function of WEIGHT, ABDOMEN can best interpret bodyfat.
